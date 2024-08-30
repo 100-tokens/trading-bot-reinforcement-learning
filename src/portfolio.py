@@ -11,6 +11,14 @@ class Portfolio:
         self.evaluation = self.initial_balance  # cash et trades ouverts
         self.performance_history = []
 
+    def reset(self):
+        self.balance = self.initial_balance
+        self.balance = self.initial_balance
+        self.opened_trades = []
+        self.closed_trades = []
+        self.evaluation = self.initial_balance  # cash et trades ouverts
+        self.performance_history = []
+
     def open_trade(self, ticker, quantity, price, open_transaction_cost, position):
         trade = Trade(ticker, quantity, price, open_transaction_cost, position)
         if trade.initial_value <= self.balance:

@@ -31,8 +31,8 @@ class StockTradingEnv(gym.Env):
         # observation space
         self.observation_space = spaces.Box(low=np.inf, high=np.inf, shape=(self.close_history[1],))
 
-        # action space: Buy/Sell signal (-1 to 1) and quantity (0 to 1)
-        self.action_space = spaces.Box(low=np.array([-1, 0]), high=np.array([1, 1]), shape=(2,), dtype=np.float32)
+        # action space: buy = 0, sell = 1, hold = 2
+        self.action_space = spaces.Discrete(3)
 
         #TODO: inistialize hyperparameters for reward calculations
 
@@ -40,6 +40,15 @@ class StockTradingEnv(gym.Env):
         self.epsilon = epsilon
         self.epsilon_decay = epsilon_decay
         self.epsilon_min = epsilon_min
+
+        #initialization of reward
+        self.total_reward = 0
+
+    def reset(self):
+        self.current_step = 0
+        self.portfolio.reset()
+        self.total_reward = 0
+        return self._get_observation(), {}
 
     def step(self, action):
         # get data of the current step
